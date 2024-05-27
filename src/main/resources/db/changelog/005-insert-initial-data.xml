@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="005-1" author="yourname">
+        <insert tableName="task_statuses">
+            <column name="name" value="TODO"/>
+        </insert>
+        <insert tableName="task_statuses">
+            <column name="name" value="IN_PROGRESS"/>
+        </insert>
+        <insert tableName="task_statuses">
+            <column name="name" value="DONE"/>
+        </insert>
+        <insert tableName="task_statuses">
+            <column name="name" value="REVIEW"/>
+        </insert>
+        <insert tableName="task_statuses">
+            <column name="name" value="APPROVED"/>
+        </insert>
+        <insert tableName="task_statuses">
+            <column name="name" value="ARCHIVED"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="005-2" author="yourname">
+        <insert tableName="tags">
+            <column name="name" value="High Priority"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Low Priority"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Bug"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Feature"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Improvement"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Research"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="UI"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Backend"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Database"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Testing"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Documentation"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Security"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Performance"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Deployment"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Code Review"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Design"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Refactoring"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Testing Automation"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="CI/CD"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Monitoring"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Customer Support"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Marketing"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Sales"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="Finance"/>
+        </insert>
+        <insert tableName="tags">
+            <column name="name" value="HR"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

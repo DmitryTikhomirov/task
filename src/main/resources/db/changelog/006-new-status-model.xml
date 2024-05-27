@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="006_update_task_statuses" author="your_name">
+        <!-- Добавление новых полей для хранения ссылок на предыдущий и следующий статусы -->
+        <sql>ALTER TABLE task_statuses
+            ADD COLUMN next_status_id BIGINT;</sql>
+        <sql>ALTER TABLE task_statuses
+            ADD COLUMN previous_status_id BIGINT;</sql>
+
+        <!-- Добавление внешних ключей для новых полей -->
+        <addForeignKeyConstraint baseTableName="task_statuses"
+                                 baseColumnNames="next_status_id"
+                                 constraintName="fk_next_status"
+                                 referencedTableName="task_statuses"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="task_statuses"
+                                 baseColumnNames="previous_status_id"
+                                 constraintName="fk_previous_status"
+                                 referencedTableName="task_statuses"
+                                 referencedColumnNames="id"/>
+
+        <!-- Установка следующих статусов -->
+        <sql>UPDATE task_statuses
+             SET next_status_id = (SELECT id FROM task_statuses WHERE name = 'IN_PROGRESS')
+             WHERE name = 'TODO';</sql>
+        <sql>UPDATE task_statuses
+             SET next_status_id = (SELECT id FROM task_statuses WHERE name = 'REVIEW')
+             WHERE name = 'IN_PROGRESS';</sql>
+        <sql>UPDATE task_statuses
+             SET next_status_id = (SELECT id FROM task_statuses WHERE name = 'APPROVED')
+             WHERE name = 'REVIEW';</sql>
+        <sql>UPDATE task_statuses
+             SET next_status_id = (SELECT id FROM task_statuses WHERE name = 'DONE')
+             WHERE name = 'APPROVED';</sql>
+        <sql>UPDATE task_statuses
+             SET next_status_id = (SELECT id FROM task_statuses WHERE name = 'ARCHIVED')
+             WHERE name = 'DONE';</sql>
+        <sql>UPDATE task_statuses
+             SET next_status_id = NULL
+             WHERE name = 'ARCHIVED';</sql>
+
+        <!-- Установка предыдущих статусов -->
+        <sql>UPDATE task_statuses
+             SET previous_status_id = NULL
+             WHERE name = 'TODO';</sql>
+        <sql>UPDATE task_statuses
+             SET previous_status_id = (SELECT id FROM task_statuses WHERE name = 'TODO')
+             WHERE name = 'IN_PROGRESS';</sql>
+        <sql>UPDATE task_statuses
+             SET previous_status_id = (SELECT id FROM task_statuses WHERE name = 'IN_PROGRESS')
+             WHERE name = 'REVIEW';</sql>
+        <sql>UPDATE task_statuses
+             SET previous_status_id = (SELECT id FROM task_statuses WHERE name = 'REVIEW')
+             WHERE name = 'APPROVED';</sql>
+        <sql>UPDATE task_statuses
+             SET previous_status_id = (SELECT id FROM task_statuses WHERE name = 'APPROVED')
+             WHERE name = 'DONE';</sql>
+        <sql>UPDATE task_statuses
+             SET previous_status_id = (SELECT id FROM task_statuses WHERE name = 'DONE')
+             WHERE name = 'ARCHIVED';</sql>
+    </changeSet>
+
+</databaseChangeLog>

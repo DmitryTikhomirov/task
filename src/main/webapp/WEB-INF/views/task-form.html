@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Task Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Multiselect CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/css/bootstrap-multiselect.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-5" th:text="${task.id} != null ? 'Edit Task' : 'Create Task'"></h1>
+    <form th:action="@{/tasks}" th:object="${task}" method="post">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" th:field="*{title}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" th:field="*{description}" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select class="form-control" id="status" th:field="*{stat}">
+                <option th:each="stat : ${statuses}" th:value="${stat}" th:text="${stat}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="tags">Tags</label>
+            <select id="tags" multiple="multiple" class="form-control" th:field="*{tags}">
+                <option th:each="tag : ${tags}" th:value="${tag.name}" th:data-color="${tag.tagTopicColor}" th:text="${tag.name}"></option>
+            </select>
+        </div>
+        <input type="hidden" th:field="*{createdAt}">
+        <input type="hidden" th:field="*{updatedAt}">
+        <input type="hidden" th:field="*{id}">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="/tasks" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!-- Bootstrap JS and dependencies -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!-- Bootstrap Multiselect JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.15/js/bootstrap-multiselect.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#tags').multiselect({
+            includeSelectAllOption: true,
+            nonSelectedText: 'Select Tags',
+            optionLabel: function(element) {
+                var color = $(element).data('color');
+                return '<span style="color:' + color + '">' + $(element).text() + '</span>';
+            },
+            enableHTML: true
+        });
+
+        $('#tags option').each(function() {
+            var color = $(this).data('color');
+            $(this).css('color', color);
+        });
+    });
+</script>
+</body>
+</html>

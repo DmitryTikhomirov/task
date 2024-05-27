@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Tasks</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <br>
+    <a href="/tags" class="btn btn-secondary mb-3">View and Add Tags</a>
+    <h1 class="mt-5">Tasks List</h1>
+    <table class="table table-striped mt-3">
+        <thead class="thead-dark">
+        <tr>
+            <th><a th:href="@{/tasks(page=0, pageSize=${pageSize}, sortBy='id', sortDir=${sortDir == 'ASC' ? 'DESC' : 'ASC'})"
+                   th:text="'ID ' + (sortBy == 'id' ? (sortDir == 'ASC' ? '▲' : '▼') : '')"></a></th>
+            <th><a th:href="@{/tasks(page=0, pageSize=${pageSize}, sortBy='title', sortDir=${sortDir == 'ASC' ? 'DESC' : 'ASC'})"
+                   th:text="'Title ' + (sortBy == 'title' ? (sortDir == 'ASC' ? '▲' : '▼') : '')"></a></th>
+
+            <th>Description</th>
+            <th>Created At</th>
+            <th>Status</th>
+            <th>Updated At</th>
+            <th>Tags</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task : ${tasks}">
+            <td th:text="${task.id}"></td>
+            <td th:text="${task.title}"></td>
+            <td th:text="${task.description}"></td>
+            <td th:text="${task.createdAt}"></td>
+            <td th:text="${task.getStat}"></td>
+            <td th:text="${task.updatedAt}"></td>
+            <td>
+                <!-- Отображение тегов -->
+                <span th:each="tag : ${task.tags}" th:text="${tag.name}" th:style="'color:' + ${tag.tagTopicColor} + ';'" class="badge badge-secondary mr-1"></span>
+            </td>
+            <td>
+                <a th:href="@{/tasks/{id}(id=${task.id})}" class="btn btn-warning btn-sm">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form action="#" th:action="@{/tasks}" method="get" class="form-inline mt-3">
+        <div class="form-group mr-2">
+            <label for="pageSize">Items per Page:</label>
+            <select id="pageSize" name="pageSize" class="form-control" onchange="this.form.submit()">
+                <option value="5" th:selected="${pageSize == 5}">5</option>
+                <option value="10" th:selected="${pageSize == 10}">10</option>
+                <option value="20" th:selected="${pageSize == 20}">20</option>
+            </select>
+        </div>
+    </form>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{/tasks(page=${currentPage - 1})}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${currentPage == i} ? 'active'">
+                <a class="page-link" th:href="@{/tasks(page=${i})}" th:text="${i + 1}"></a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/tasks(page=${currentPage + 1})}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

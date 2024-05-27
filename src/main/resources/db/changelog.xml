@@ -1,0 +1,13 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <include file="db/changelog/001-create-taskstatus-table.xml"/>
+    <include file="db/changelog/002-create-tag-table.xml"/>
+    <include file="db/changelog/003-create-task-table.xml"/>
+    <include file="db/changelog/004-create-task-tags-table.xml"/>
+    <include file="db/changelog/005-insert-initial-data.xml"/>
+    <include file="db/changelog/006-new-status-model.xml"/>
+    <include file="db/changelog/007-create-tags-topics.xml"/>
+    <include file="db/changelog/008-create-task-comments.xml"/>
+</databaseChangeLog>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <!-- Создание таблицы tags_topics -->
+    <changeSet id="007_1" author="your_name">
+        <createTable tableName="tags_topics">
+            <column name="id" type="INT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="color" type="CHAR(7)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Вставка данных в таблицу tags_topics -->
+    <changeSet id="007_2" author="your_name">
+        <sql>
+            <![CDATA[
+            INSERT INTO tags_topics (name, color)
+            VALUES ('Priority', '#' || LPAD(RIGHT(TO_HEX(FLOOR(random() * 16777215)::INT), 6), 6, '0')),
+                   ('Type', '#' || LPAD(RIGHT(TO_HEX(FLOOR(random() * 16777215)::INT), 6), 6, '0')),
+                   ('Technologies', '#' || LPAD(RIGHT(TO_HEX(FLOOR(random() * 16777215)::INT), 6), 6, '0')),
+                   ('Documentation', '#' || LPAD(RIGHT(TO_HEX(FLOOR(random() * 16777215)::INT), 6), 6, '0')),
+                   ('Code Development', '#' || LPAD(RIGHT(TO_HEX(FLOOR(random() * 16777215)::INT), 6), 6, '0')),
+                   ('Support and Administration',
+                    '#' || LPAD(RIGHT(TO_HEX(FLOOR(random() * 16777215)::INT), 6), 6, '0')),
+                   ('Marketing and Promotion', '#' || LPAD(RIGHT(TO_HEX(FLOOR(random() * 16777215)::INT), 6), 6, '0'));
+            ]]>
+        </sql>
+    </changeSet>
+
+    <changeSet id="007_3" author="your_name">
+        <addColumn tableName="tags">
+            <column name="topic_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <!-- Создание внешнего ключа -->
+        <addForeignKeyConstraint baseTableName="tags"
+                                 baseColumnNames="topic_id"
+                                 constraintName="fk_tags_topics"
+                                 referencedTableName="tags_topics"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+
+    </changeSet>
+
+    <changeSet id="007_4" author="yourname">
+        <!-- Обновление столбца topic_id в таблице tags -->
+        <sql>UPDATE tags
+             SET topic_id = 1
+             WHERE id BETWEEN 1 AND 2;</sql>
+        <sql>UPDATE tags
+             SET topic_id = 2
+             WHERE id BETWEEN 3 AND 4;</sql>
+        <sql>UPDATE tags
+             SET topic_id = 3
+             WHERE id BETWEEN 5 AND 6;</sql>
+        <sql>UPDATE tags
+             SET topic_id = 4
+             WHERE id BETWEEN 7 AND 9;</sql>
+        <sql>UPDATE tags
+             SET topic_id = 5
+             WHERE id BETWEEN 10 AND 11;</sql>
+        <sql>UPDATE tags
+             SET topic_id = 6
+             WHERE id BETWEEN 12 AND 21;</sql>
+        <sql>UPDATE tags
+             SET topic_id = 7
+             WHERE id BETWEEN 22 AND 25;</sql>
+    </changeSet>
+
+</databaseChangeLog>
